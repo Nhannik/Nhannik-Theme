@@ -493,10 +493,10 @@ const toRgba : (hex:string,alpha?:number)=>string  = (hex,alpha=1) => {
   };
   
   // theme for tailwindCSS config
-  const  theme = {colors,borderRadius,fontSize:fontSize as never ,screens};
+  const  Theme = {colors,borderRadius,fontSize:fontSize as never,screens};
   
   
   // exporting the theme as module [commonjs]
-  module.exports = theme ;
+  module.exports = Theme ;
   
   
