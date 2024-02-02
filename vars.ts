@@ -27,7 +27,7 @@ const toRgba : (hex:string,alpha?:number)=>string  = (hex,alpha=1) => {
         100:"#E0E0E0",
         200:"#C6C6C6",
         300:"#A8A8A8",
-        400:"#D8D8D8",
+        400:"#8D8D8D",
         500:"#6F6F6F",
         600:"#525252",
         700:"#393939",
@@ -241,15 +241,15 @@ const toRgba : (hex:string,alpha?:number)=>string  = (hex,alpha=1) => {
       text:{
         primary:mainColor.neutral[900],
         secondary:mainColor.neutral[600],
-        placeholder:mainColor.neutral[300],
+        placeholder:mainColor.neutral[400],
         oncolor:mainColor.white,
         brand:mainColor.blue[500],
         "brand-dark":mainColor.blue[800],
         link:mainColor.blue[600],
         "link-hover":mainColor.blue[700],
         error:mainColor.red[500],
-        warning:mainColor.orange[500],
-        success:mainColor.green[500],
+        warning:mainColor.orange[400],
+        success:mainColor.green[400],
         disabled:mainColor.neutral[400]
       },
       // ## button colors ##
@@ -258,13 +258,13 @@ const toRgba : (hex:string,alpha?:number)=>string  = (hex,alpha=1) => {
         "primary-hover":mainColor.blue[700],
         "primary-selected":mainColor.blue[800],
   
-        secondary:mainColor.neutral[600],
-        "secondary-hover":mainColor.neutral[700],
-        "secondary-selected":mainColor.neutral[800],
+        secondary:mainColor.neutral[50],
+        "secondary-hover":mainColor.neutral[100],
+        "secondary-selected":mainColor.neutral[200],
   
         tertiary:mainColor.white,
-        "tertiary-hover":mainColor.neutral[50],
-        "tertiary-Selected":mainColor.neutral[100],
+        "tertiary-hover":mainColor.blue[50],
+        "tertiary-selected":mainColor.blue[100],
   
         danger:mainColor.red[500],
         "danger-hover":mainColor.red[600],
