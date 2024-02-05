@@ -7,3 +7,12 @@ export type TagColors = "blue"|"purple"|"cool-gray"|"magenta"|"gray"|"warm-gray"
 
 
 export type CheckboxColors = "dark" | "brand" | "warning" | "error" 
+
+
+// size type 
+
+export type SizeType = 'sm' | 'md' | 'lg' ;
+
+// state type 
+
+export type StateType = 'active' | 'error' | 'warning' ;
