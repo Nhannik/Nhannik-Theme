@@ -1,6 +1,7 @@
 import * as SelectPrimitives from '@radix-ui/react-select'
 import { forwardRef, FC } from 'react'
 import { twMerge as cn } from 'tailwind-merge'
+import * as ScrollBarPrimitive from '@radix-ui/react-scroll-area';
 import { SizeType, StateType } from '../../../types';
 import { HiCheck, HiChevronDown, HiExclamationCircle, HiExclamationTriangle } from 'react-icons/hi2';
 
@@ -94,14 +95,20 @@ Select.Trigger.displayName = SelectPrimitives.Trigger.displayName;
 // list type 
 interface ListPropsType extends React.ComponentPropsWithoutRef<typeof SelectPrimitives.Content> { size?: SizeType }
 
-Select.List = forwardRef<React.ElementRef<typeof SelectPrimitives.Content>, ListPropsType>(({ size = "sm", position = "popper", children, className, ...props }, ref) => {
+Select.List = forwardRef<React.ElementRef<typeof SelectPrimitives.Content>, ListPropsType>(({ size = "sm", position = "popper", side='bottom', children, className, ...props }, ref) => {
   return <SelectPrimitives.Portal children={
     <SelectPrimitives.Content
-      className={cn('group', 'relative z-50 w-[17.4em] max-h-[15.4em] sm-scrollbar overflow-h-auto rounded-md shadow-md bg-field-background data-[state=open]:translate-x-0  data-[state=open]:translate-y-0',
-        position == 'popper' && 'data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1',
-        true ? 'data-[side=top]:top-1 data-[side=left]:left-1 data-[side=bottom]:bottom-1 data-[side=right]:right-1' : '',
-         className)} data-size={size} ref={ref} position={position} {...props}>
-      <SelectPrimitives.Viewport className='w-full p-1 flex flex-col gap-1' children={children} />
+    
+      className={cn('group', 'relative z-50 w-[17.4em] max-h-[15.4em] sm-scrollbar overflow-y-auto rounded-md shadow-md bg-field-background data-[state=open]:translate-x-0  data-[state=open]:translate-y-0',
+        position == 'popper' && 'data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1 transition-transform',
+        'data-[side=top]:bottom-2 data-[side=left]:right-1 data-[side=bottom]:top-1 data-[side=right]:left-1', className)}  data-size={size} data-side={side} side={side} ref={ref}
+      position={'popper'}
+      {...props}>
+      <ScrollBarPrimitive.Root>
+        <ScrollBarPrimitive.Viewport >
+          <SelectPrimitives.Viewport className='w-full p-1 -mb-1' children={children} />
+        </ScrollBarPrimitive.Viewport>
+      </ScrollBarPrimitive.Root>
     </SelectPrimitives.Content >
   } />
 })
@@ -116,11 +123,11 @@ interface ItemPropsType extends React.ComponentPropsWithoutRef<typeof SelectPrim
 Select.Item = forwardRef<React.ElementRef<typeof SelectPrimitives.Item>, ItemPropsType>(({ className, children, ...props }, ref) => {
   return <SelectPrimitives.Item
     className={cn(
-      'w-full flex justify-between data-[state=unchecked]:cursor-pointer select-none items-center data-[state=unchecked]:rounded-md data-[state=checked]:rounded-r-md px-4 text-base outline-none data-[disabled]:pointer-events-none',
+      'w-full mb-1 flex justify-between data-[state=unchecked]:cursor-pointer select-none items-center data-[state=unchecked]:rounded-md data-[state=checked]:rounded-r-md px-4 text-base outline-none data-[disabled]:pointer-events-none',
       'bg-field-background text-text-primary focus-visible:bg-field-hover  hover:bg-field-hover data-[state=checked]:bg-notification-brand-transparent data-[state=checked]:focus-visible:bg-notification-brand-transparent border-transparent data-[state=checked]:border-l-2  data-[state=checked]:border-l-border-selected data-[state=checked]:text-text-brand transition-colors',
       // size == 'md' ? "py-2 min-h-[2.5em]" : size == 'lg' ? 'py-3 min-h-[3em]' : 'py-1 min-h-[2em]','
       "group-data-[size=md]:py-2 group-data-[size=md]:min-h-[2.5em] group-data-[size=lg]:py-3 group-data-[size=lg]:min-h-[3em] group-data-[size=sm]:py-1 group-data-[size=sm]:min-h-[2em]"
-      ,"data-[disabled]:bg-field-disabled data-[disabled]:text-text-disabled"
+      , "data-[disabled]:bg-field-disabled data-[disabled]:text-text-disabled"
       , className)}
     ref={ref} children={<><SelectPrimitives.ItemText children={children} /> <SelectPrimitives.ItemIndicator asChild children={<HiCheck className="w-5 h-5 text-icon-blue" />} /> </>} {...props} />
 })
