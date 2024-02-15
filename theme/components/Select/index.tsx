@@ -13,11 +13,17 @@ interface SelectType extends FC<SelectPropsType> {
   // Trigger 
   Trigger: FC<TriggerPropsType>;
 
+  // Trigger 
+  CustomTrigger: FC<CustomTriggerPropsType>;
+
   // List 
   List: FC<ListPropsType>
 
   // Item 
   Item: FC<ItemPropsType>
+
+  // CustomItem 
+  CustomItem: FC<ItemPropsType>
 
   // Separator 
   Separator: FC<SeparatorPropsType>
@@ -26,8 +32,16 @@ interface SelectType extends FC<SelectPropsType> {
   Group: FC<GroupPropsType>
 
   // Label
-  Label: FC<any>
+  Label: FC<LabelPropsType>;
 
+  // Value
+  Value: typeof SelectPrimitives.Value;
+
+  // ItemText
+  ItemText: typeof SelectPrimitives.ItemText;
+
+  // ItemIndicator
+  ItemIndicator: typeof SelectPrimitives.ItemIndicator;
 }
 
 
@@ -41,6 +55,16 @@ const Select: SelectType = (props) => {
 }
 
 
+// # Value
+Select.Value = SelectPrimitives.Value;
+
+// # Value
+Select.ItemText = SelectPrimitives.ItemText;
+
+// # Value
+Select.ItemIndicator = SelectPrimitives.ItemIndicator;
+
+
 // # Group 
 
 // Group type 
@@ -51,8 +75,6 @@ Select.Group = forwardRef<React.ElementRef<typeof SelectPrimitives.Group>, Group
 })
 
 Select.Group.displayName = SelectPrimitives.Group.displayName;
-
-
 
 
 // # Trigger 
@@ -88,6 +110,16 @@ Select.Trigger = forwardRef<React.ElementRef<typeof SelectPrimitives.Trigger>, T
 
 Select.Trigger.displayName = SelectPrimitives.Trigger.displayName;
 
+// # CustomTrigger 
+
+// Trigger type
+interface CustomTriggerPropsType extends React.ComponentPropsWithRef<typeof SelectPrimitives.Trigger> { }
+
+Select.CustomTrigger = forwardRef<React.ElementRef<typeof SelectPrimitives.Trigger>, CustomTriggerPropsType>((props, ref) => {
+  return (<SelectPrimitives.Trigger asChild ref={ref} {...props} />)
+});
+
+Select.CustomTrigger.displayName = SelectPrimitives.Trigger.displayName;
 
 
 // # List 
@@ -95,13 +127,13 @@ Select.Trigger.displayName = SelectPrimitives.Trigger.displayName;
 // list type 
 interface ListPropsType extends React.ComponentPropsWithoutRef<typeof SelectPrimitives.Content> { size?: SizeType }
 
-Select.List = forwardRef<React.ElementRef<typeof SelectPrimitives.Content>, ListPropsType>(({ size = "sm", position = "popper", side='bottom', children, className, ...props }, ref) => {
+Select.List = forwardRef<React.ElementRef<typeof SelectPrimitives.Content>, ListPropsType>(({ size = "sm", position = "popper", side = 'bottom', children, className, ...props }, ref) => {
   return <SelectPrimitives.Portal children={
     <SelectPrimitives.Content
-    
+
       className={cn('group', 'relative z-50 w-[17.4em] max-h-[15.4em] sm-scrollbar overflow-y-auto rounded-md shadow-md bg-field-background data-[state=open]:translate-x-0  data-[state=open]:translate-y-0',
         position == 'popper' && 'data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1 transition-transform',
-        'data-[side=top]:bottom-2 data-[side=left]:right-1 data-[side=bottom]:top-1 data-[side=right]:left-1', className)}  data-size={size} data-side={side} side={side} ref={ref}
+        'data-[side=top]:bottom-2 data-[side=left]:right-1 data-[side=bottom]:top-1 data-[side=right]:left-1', className)} data-size={size} data-side={side} side={side} ref={ref}
       position={'popper'}
       {...props}>
       <ScrollBarPrimitive.Root>
@@ -134,6 +166,16 @@ Select.Item = forwardRef<React.ElementRef<typeof SelectPrimitives.Item>, ItemPro
 
 Select.Item.displayName = SelectPrimitives.Item.displayName;
 
+// # CustomItem 
+
+// CustomItem type 
+interface CustomItemPropsType extends React.ComponentPropsWithoutRef<typeof SelectPrimitives.Item> { }
+
+Select.CustomItem = forwardRef<React.ElementRef<typeof SelectPrimitives.Item>, CustomItemPropsType>(({ className, ...props }, ref) => {
+  return <SelectPrimitives.Item className={cn('w-full select-none outline-none cursor-pointer rounded-md py-1 px-2 mb-1', className)} ref={ref} {...props} />
+})
+
+Select.CustomItem.displayName = SelectPrimitives.Item.displayName;
 
 // # Separator 
 
@@ -146,7 +188,6 @@ Select.Separator = forwardRef<React.ElementRef<typeof SelectPrimitives.Separator
 
 Select.Separator.displayName = SelectPrimitives.Separator.displayName;
 
-
 // # Label 
 
 // Label type 
@@ -158,21 +199,5 @@ Select.Label = forwardRef<React.ElementRef<typeof SelectPrimitives.Label>, Label
 
 Select.Label.displayName = SelectPrimitives.Label.displayName;
 
-
-
-
-
-
-
-
 // exporting the Select 
-
-
 export default Select;
-
-
-
-
-
-
-
