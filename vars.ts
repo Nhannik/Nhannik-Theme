@@ -171,7 +171,7 @@ const toRgba : (hex:string,alpha?:number)=>string  = (hex,alpha=1) => {
         400:"#388BFF",
         500:"#006FEE",
         600:"#005AD9",
-        700:"#0050FB",
+        700:"#0050BF",
         800:"#09327C",
         900:"#001731"
       },
