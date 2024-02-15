@@ -3,12 +3,12 @@ import { Children, MouseEvent } from 'react'
 import { twMerge as cn } from 'tailwind-merge'
 import * as DropdownPrimitive from '@radix-ui/react-dropdown-menu';
 import { HiChevronRight, HiEllipsisHorizontal } from 'react-icons/hi2';
-import { SizesType } from '../../../types';
+import { SizeType } from '../../../types';
 
 
 interface PropsType {
     children?: React.ReactNode;
-    size?: SizesType;
+    size?: SizeType;
     onClick?: (ItemValue: string, event: MouseEvent) => void
 }
 
