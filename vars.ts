@@ -245,12 +245,16 @@ const toRgba : (hex:string,alpha?:number)=>string  = (hex,alpha=1) => {
         oncolor:mainColor.white,
         brand:mainColor.blue[500],
         "brand-dark":mainColor.blue[800],
-        link:mainColor.blue[600],
-        "link-hover":mainColor.blue[700],
         error:mainColor.red[500],
         warning:mainColor.orange[400],
         success:mainColor.green[400],
         disabled:mainColor.neutral[400]
+      },
+      // ## link colors ##
+      link:{
+        default:mainColor.blue[600],
+        hover:mainColor.blue[700],
+        visited:mainColor.purple[600]
       },
       // ## button colors ##
       button:{
