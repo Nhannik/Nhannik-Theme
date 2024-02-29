@@ -46,6 +46,7 @@ export default function GroupButton({ className: cn, size, styleType, optionsLis
       }
     }
 
+    
     if (toggle) {
       addEventListener('mousedown', eventFun);
     }
