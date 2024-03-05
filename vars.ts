@@ -496,8 +496,17 @@ const toRgba : (hex:string,alpha?:number)=>string  = (hex,alpha=1) => {
       "full":"50%"
   };
   
+  
+        // 'plus-jakarta-sans': ['plus-jakarta-sans', 'sans-serif'],
+    
+
   // theme for tailwindCSS config
-  const  Theme = {colors,borderRadius,fontSize:fontSize as never,screens};
+  const  Theme = {colors,borderRadius,fontSize:fontSize as never,screens, fontFamily: {
+    'plus-jakarta-sans': ['plus-jakarta-sans', 'sans-serif'],
+  },
+  outlineOffset: {
+    '2': '2px',
+  },};
   
   
   // exporting the theme as module [commonjs]
