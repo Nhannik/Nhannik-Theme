@@ -44,9 +44,13 @@ React.ElementRef<typeof SwitchPrimitive.Root>,PropsType>
             'group-data-[state=unchecked]:data-[variant=default]:hidden ',
             'data-[size=sm]:w-2 data-[size=sm]:h-2 data-[size=lg]:data-[variant=default]:w-[14px] data-[size=lg]:data-[variant=default]:h-[14px] data-[size=lg]:data-[variant=locked]:w-[12px] data-[size=lg]:data-[variant=locked]:h-[12px]'
         )}/>
-    </SwitchPrimitive.Thumb>
+
+
+
+</SwitchPrimitive.Thumb>
     </SwitchPrimitive.Root>
 })  
+
 
 Switch.displayName = SwitchPrimitive.Root.displayName ;
 
