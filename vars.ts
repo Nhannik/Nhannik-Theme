@@ -458,20 +458,20 @@ const toRgba : (hex:string,alpha?:number)=>string  = (hex,alpha=1) => {
   
   // screens
   const screens={
-      '2xl': {'max': '1536px'},
-      // => @media (max-width: 1536px) { ... }
+      '2xl': {'max': '1584px'},
+      // => @media (max-width: 1584px) { ... }
   
-      'xl': {'max': '1279px'},
-      // => @media (max-width: 1279px) { ... }
+      'xl': {'max': '1312px'},
+      // => @media (max-width: 1312px) { ... }
   
-      'lg': {'max': '1023px'},
-      // => @media (max-width: 1023px) { ... }
+      'lg': {'max': '1056px'},
+      // => @media (max-width: 1056px) { ... }
   
-      'md': {'max': '767px'},
-      // => @media (max-width: 767px) { ... }
+      'md': {'max': '672px'},
+      // => @media (max-width: 672px) { ... }
   
-      'sm': {'max': '639px'},
-      // => @media (max-width: 639px) { ... }
+      'sm': {'max': '320px'},
+      // => @media (max-width: 320px) { ... }
   };
   
   // font sizes

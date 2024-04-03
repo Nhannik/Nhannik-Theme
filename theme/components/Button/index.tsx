@@ -1,6 +1,6 @@
 
 import { twMerge } from "tailwind-merge";
-import { Slot } from "@radix-ui/react-slot";
+ import { Slot } from "@radix-ui/react-slot";
 import { ButtonHTMLAttributes, forwardRef } from "react";
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {

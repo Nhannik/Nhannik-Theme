@@ -32,7 +32,7 @@ export default function SearchInput({ disabled, defaultValue, onChange, size, in
             <div
                 className={twMerge('flex items-center text-icon-black  bg-background-layer2 rounded-md outline-1  ',
                     'pl-4 pr-2 gap-2',
-                    size === 'lg' ? 'py-3' : size === 'md' ? 'py-2' : 'py-1',
+                    size === 'lg' ? 'py-3' : size === 'md' ? 'py-2' : 'py-1' , size === 'sm' ? 'py-1.5' : 'py-1',
                     className,
                     isExpanded ? 'w-[20em]' : 'w-10'
                 )}
