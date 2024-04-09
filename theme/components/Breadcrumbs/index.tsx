@@ -111,7 +111,7 @@ const Breadcrumbs: BreadcrumbsRootType = ({ onClick, size = 'sm', children, ...p
                                 <DropdownPrimitive.Content
                                     side='bottom'
                                     sideOffset={4}
-                                    className="group relative w-[9em] mt-1 ml-14 max-h-[15.4em] sm-scrollbar overflow-y-auto rounded-md shadow-md bg-field-background flex flex-col p-1 gap-1"
+                                    className="group relative w-[9em] mt-1 ml-14 max-h-[15.4em] sm-scrollbar overflow-y-auto rounded-md shadow-md bg-field-Background flex flex-col p-1 gap-1"
                                     data-size={size}>
                                     {/* remove the first item and item before the last and the last and looping through the array  */}
 
@@ -123,7 +123,7 @@ const Breadcrumbs: BreadcrumbsRootType = ({ onClick, size = 'sm', children, ...p
                                                 children={e.children}
                                                 className={cn(
                                                     'w-full flex justify-between cursor-pointer select-none items-center rounded-md px-4 text-base outline-none data-[disabled]:pointer-events-none',
-                                                    'bg-field-background text-text-primary focus-visible:bg-field-hover hover:bg-field-hover   border-transparent data-[state=checked]:border-l-2  data-[state=checked]:border-l-border-selected data-[state=checked]:text-text-brand transition-colors',
+                                                    'bg-field-Background text-text-primary focus-visible:bg-field-hover hover:bg-field-hover   border-transparent data-[state=checked]:border-l-2  data-[state=checked]:border-l-border-selected data-[state=checked]:text-text-brand transition-colors',
                                                     "group-data-[size=md]:py-2 group-data-[size=md]:min-h-[2.5em] group-data-[size=lg]:py-3 group-data-[size=lg]:min-h-[3em] group-data-[size=sm]:py-1 group-data-[size=sm]:min-h-[2em]"
                                                     , "data-[disabled]:bg-field-disabled data-[disabled]:text-text-disabled"
                                                 )}

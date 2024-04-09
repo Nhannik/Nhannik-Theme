@@ -26,14 +26,14 @@ export default function NumberInput({ state,inputClassName,className,text,disabl
             disabled={disabled}
             onInput={e=>e.target.value = e.target.value.replace(/[^0-9:]/g, '')}
             type="text" className={twMerge(
-                'px-4 placeholder:text-text-placeholder w-full text-base text-text-primary  bg-background-layer2 outline-blue-500 outline-1 disabled:bg-field-disabled disabled:text-text-disabled transition-colors',
+                'px-4 placeholder:text-text-placeholder w-full text-base text-text-primary  bg-Background-layer2 outline-blue-500 outline-1 disabled:bg-field-disabled disabled:text-text-disabled transition-colors',
                 size == 'md' ? "py-[10px]" : size == 'lg' ? 'py-[14px]' : "py-[6px]",
                 state == 'error' && !disabled  || state == 'warning' && !disabled ? 'outline-none outline-0 rounded-l-md' : "rounded-md",
                 inputClassName
             )} {...props} />
             {
                 state == 'error' && !disabled  || state == 'warning' && !disabled ? (
-                    <div className=" justify-center bg-background-layer2 rounded-r-md flex items-center px-4">
+                    <div className=" justify-center bg-Background-layer2 rounded-r-md flex items-center px-4">
                         {
                             state == 'error' ? (<HiExclamationCircle className="text-text-error w-6 h-6" />) : state == 'warning' ? (<HiExclamationTriangle className="text-text-warning w-6 h-6" />) : ''
                         }

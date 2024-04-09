@@ -42,7 +42,7 @@ export default function PasswordInput({ className,inputClassName,gauge,gaugeType
                 )} {...props} />
                 {
                     state == 'error'  && !disabled  || state == 'warning'  && !disabled  ? (
-                    <div className=" justify-center bg-background-layer2 flex items-center px-[0]
+                    <div className=" justify-center bg-Background-layer2 flex items-center px-[0]
                     ">
                         {
                             state == 'error' ? (<HiExclamationCircle className="text-text-error w-5 h-5" />) : state == 'warning' ? (<HiExclamationTriangle className="text-text-warning w-5 h-5" />) : ''
@@ -51,7 +51,7 @@ export default function PasswordInput({ className,inputClassName,gauge,gaugeType
 
                     ) : ""
                 }
-            <div  className={twMerge("justify-center bg-background-layer2  flex items-center px-4 rounded-r-md ",
+            <div  className={twMerge("justify-center bg-Background-layer2  flex items-center px-4 rounded-r-md ",
             disabled ? "bg-field-disabled" : ''
             )}>
                 {show ? <HiEyeOff onClick={()=> !disabled && setShow(false)}  className={twMerge("text-icon-dark cursor-pointer w-5 h-5",disabled?"text-text-disabled cursor-auto":"")} /> : <HiEye onClick={()=>!disabled &&setShow(true)} className={twMerge("text-icon-dark cursor-pointer w-5 h-5",disabled?"text-text-disabled cursor-auto":"")} />}   

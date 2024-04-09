@@ -93,7 +93,7 @@ Select.Trigger = forwardRef<React.ElementRef<typeof SelectPrimitives.Trigger>, T
     className={cn('group w-[16em] flex justify-between items-center rounded-md select-none px-4 border cursor-pointer text-base outline-none transition-colors',
       size == 'md' ? "py-2 min-h-[2.5em]" : size == 'lg' ? 'py-3 min-h-[3em]' : 'py-1 min-h-[2em]',
       state == 'error' ? 'border-border-error' : state == 'warning' ? 'border-border-warning' : 'border-transparent',
-      disabled ? 'bg-field-disabled border-border-disabled cursor-not-allowed pointer-events-none text-text-disabled border-transparent' : 'bg-field-background hover:bg-field-hover text-base text-text-primary focus-visible:outline-blue-500',
+      disabled ? 'bg-field-disabled border-border-disabled cursor-not-allowed pointer-events-none text-text-disabled border-transparent' : 'bg-field-Background hover:bg-field-hover text-base text-text-primary focus-visible:outline-blue-500',
       className)}
     ref={ref} disabled={disabled} {...props}>
     <SelectPrimitives.Value placeholder={children} />
@@ -131,7 +131,7 @@ Select.List = forwardRef<React.ElementRef<typeof SelectPrimitives.Content>, List
   return <SelectPrimitives.Portal children={
     <SelectPrimitives.Content
 
-      className={cn('group', 'relative z-50 w-[17.4em] max-h-[15.4em] sm-scrollbar overflow-y-auto rounded-md shadow-md bg-field-background data-[state=open]:translate-x-0  data-[state=open]:translate-y-0',
+      className={cn('group', 'relative z-50 w-[17.4em] max-h-[15.4em] sm-scrollbar overflow-y-auto rounded-md shadow-md bg-field-Background data-[state=open]:translate-x-0  data-[state=open]:translate-y-0',
         position == 'popper' && 'data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1 transition-transform',
         'data-[side=top]:bottom-2 data-[side=left]:right-1 data-[side=bottom]:top-1 data-[side=right]:left-1', className)} data-size={size} data-side={side} side={side} ref={ref}
       position={'popper'}
@@ -156,7 +156,7 @@ Select.Item = forwardRef<React.ElementRef<typeof SelectPrimitives.Item>, ItemPro
   return <SelectPrimitives.Item
     className={cn(
       'w-full mb-1 flex justify-between data-[state=unchecked]:cursor-pointer select-none items-center data-[state=unchecked]:rounded-md data-[state=checked]:rounded-r-md px-4 text-base outline-none data-[disabled]:pointer-events-none',
-      'bg-field-background text-text-primary focus-visible:bg-field-hover  hover:bg-field-hover data-[state=checked]:bg-notification-brand-transparent data-[state=checked]:focus-visible:bg-notification-brand-transparent border-transparent data-[state=checked]:border-l-2  data-[state=checked]:border-l-border-selected data-[state=checked]:text-text-brand transition-colors',
+      'bg-field-Background text-text-primary focus-visible:bg-field-hover  hover:bg-field-hover data-[state=checked]:bg-notification-brand-transparent data-[state=checked]:focus-visible:bg-notification-brand-transparent border-transparent data-[state=checked]:border-l-2  data-[state=checked]:border-l-border-selected data-[state=checked]:text-text-brand transition-colors',
       // size == 'md' ? "py-2 min-h-[2.5em]" : size == 'lg' ? 'py-3 min-h-[3em]' : 'py-1 min-h-[2em]','
       "group-data-[size=md]:py-2 group-data-[size=md]:min-h-[2.5em] group-data-[size=lg]:py-3 group-data-[size=lg]:min-h-[3em] group-data-[size=sm]:py-1 group-data-[size=sm]:min-h-[2em]"
       , "data-[disabled]:bg-field-disabled data-[disabled]:text-text-disabled"

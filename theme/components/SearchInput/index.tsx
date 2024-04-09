@@ -30,7 +30,7 @@ export default function SearchInput({ disabled, defaultValue, onChange, size, in
     return (
         <>
             <div
-                className={twMerge('flex items-center text-icon-black  bg-background-layer2 rounded-md outline-1  ',
+                className={twMerge('flex items-center text-icon-black  bg-Background-layer2 rounded-md outline-1  ',
                     'pl-4 pr-2 gap-2',
                     size === 'lg' ? 'py-3' : size === 'md' ? 'py-2' : 'py-1' , size === 'sm' ? 'py-1.5' : 'py-1',
                     className,
@@ -49,7 +49,7 @@ export default function SearchInput({ disabled, defaultValue, onChange, size, in
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
                     className={twMerge(
-                        'placeholder:text-text-placeholder bg-background-layer2 w-full text-base text-text-primary   outline-blue-500 outline-1 disabled:bg-field-disabled disabled:text-text-disabled transition-colors',
+                        'placeholder:text-text-placeholder bg-Background-layer2 w-full text-base text-text-primary   outline-blue-500 outline-1 disabled:bg-field-disabled disabled:text-text-disabled transition-colors',
                         'outline-none outline-0 ', inputClassName
                     )}
                     {...props}

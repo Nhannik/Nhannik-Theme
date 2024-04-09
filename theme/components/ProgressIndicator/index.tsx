@@ -30,7 +30,7 @@ function Step({
     <div
       style={{ width: width ? `${width}` : "" }}
       className={twMerge(
-        "min-w-[140px] relative transition-colors  select-none  hover:bg-background-layer1-hover   border-solid ",
+        "min-w-[140px] relative transition-colors  select-none  hover:bg-Background-layer1-hover   border-solid ",
         !disabled
           ? state == "error" && !vertical
             ? "border-border-error"
