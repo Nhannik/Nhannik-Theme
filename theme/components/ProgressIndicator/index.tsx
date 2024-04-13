@@ -30,25 +30,25 @@ function Step({
     <div
       style={{ width: width ? `${width}` : "" }}
       className={twMerge(
-        "min-w-[140px] relative transition-colors  select-none  hover:bg-Background-layer1-hover   border-solid ",
+        "min-w-[140px] relative transition-colors select-none hover:bg-Background-layer1-hover border-solid ",
         !disabled
           ? state == "error" && !vertical
-            ? "border-border-error"
+            ? "border-text-error"
             : state == "success"
             ? vertical
-              ? "border-border-selected"
-              : "border-border-success"
+              ? "border-text-brand"
+              : "border-text-success"
             : state == "current"
-            ? "border-border-selected"
+            ? "border-text-brand"
             : "border-border-subtle"
-          : "border-border-disabled hover:bg-transparent",
+          : "border-text-disabled hover:bg-transparent",
         !label ? "pb-2" : "",
         vertical
           ? "border-l-2 h-14 pt-[2px]  pl-[10px]"
           : "border-t-2  pr-4 pt-[10px]"
       )}
     >
-      <div className="flex gap-2 items-start  ">
+      <div className="flex gap-2 items-start">
         {!locked ? (
           <div className="">
             {!disabled ? (
@@ -179,7 +179,7 @@ function Step({
           />
         )}
 
-        <div className="flex flex-col ">
+        <div className="flex flex-col">
           <p
             className={twMerge(
               "text-base text-text-primary leading-[16px]",
@@ -214,7 +214,7 @@ function Step({
   );
 }
 
- export interface StepListType {
+export interface StepListType {
   label?: string;
   disabled?: boolean;
   locked?: boolean;
