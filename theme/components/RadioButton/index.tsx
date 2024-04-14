@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import { FaRegCircleDot, FaRegCircle } from 'react-icons/fa6'
 
 import { twMerge } from 'tailwind-merge';
-import { CheckboxColors } from '../../../typess';
+import { CheckboxColors } from '../../../types';
 
 
 interface Prop {
