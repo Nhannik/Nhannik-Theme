@@ -125,14 +125,14 @@ interface Props {
   overflowLimit?: number;
   className?: string;
   icons?: boolean;
-  title: string;
+  title?: string;
   onChange?: (value: any) => void;
   selectedValue?: string | number | null;
 }
 
 export default function DropDown({
   onChange,
-  overflowLimit = 16,
+  overflowLimit =45,
   optionsList,
   disabled,
   icons = false,
