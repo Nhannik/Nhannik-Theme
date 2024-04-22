@@ -9,7 +9,6 @@ import { twMerge } from "tailwind-merge";
 import React, { useEffect, useRef, useState } from "react";
 import Text from "../Text";
 
-// option
 
 interface OptionProps {
   type?: "checkbox" | "select" | "icon";
@@ -192,8 +191,8 @@ export default function DropDown({
               state == "error"
                 ? "border-border-error"
                 : state == "warning"
-                ? "border-border-warning"
-                : "",
+                  ? "border-border-warning"
+                  : "",
               size == "md" ? "py-2" : size == "lg" ? "py-3" : "py-1",
               disabled ? "bg-field-disabled cursor-not-allowed " : "",
               !toggle ? "hover:bg-field-hover rounded-md" : "rounded-t-md"
@@ -276,8 +275,8 @@ export default function DropDown({
               state == "error"
                 ? "text-text-error"
                 : state == "warning"
-                ? "text-text-warning"
-                : "text-text-secondary"
+                  ? "text-text-warning"
+                  : "text-text-secondary"
             )}
           >
             {text}
