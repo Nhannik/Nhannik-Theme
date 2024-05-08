@@ -48,11 +48,11 @@ function Tab({
           className,
           style == "2"
             ? selected
-              ? " text-text-brand border-text-brand"
+              ? " text-text-brand font-semibold border-text-brand"
               : "bg-button-tertiary-hover cursor-pointer text-text-secondary border-button-tertiary-hover hover:text-text-primary transform-color"
             : selected
-            ? "   text-text-brand border-text-brand "
-            : "bg-transparent cursor-pointer border-border-strong text-text-secondary hover:text-text-primary transform-color",
+            ? "   text-text-brand font-semibold border-text-brand "
+            : "bg-transparent cursor-pointer border-border-strong  text-text-secondary hover:text-text-primary transform-color",
           vertical
             ? style == "2"
               ? "border-l-2"
