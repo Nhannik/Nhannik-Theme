@@ -60,7 +60,7 @@ export default function SearchInput({
 				>
 					<HiMagnifyingGlass
 						className={`h-6 w-6 ${
-							isExpanded ? 'text-icon-black' : 'text-icon-blue'
+							isExpanded ? 'text-icon-black' : 'text-icon-black'
 						}`}
 					/>
 				</i>
@@ -76,12 +76,7 @@ export default function SearchInput({
 					)}
 					{...props}
 				/>
-				{isExpanded || value.length > 0 ? (
-					<HiOutlineXMark
-						onClick={handleClearClick}
-						className='text-icon-black w-6 h-6 cursor-pointer '
-					/>
-				) : null}
+				
 			</div>
 		</>
 	);
