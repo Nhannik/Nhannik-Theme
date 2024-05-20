@@ -31,22 +31,25 @@ export default function SearchInput({
   const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => onChange && onChange(value), [value]);
   useEffect(() => {
-	const handleClickOutside = (event: MouseEvent) => {
-		if (inputRef.current && !inputRef.current.contains(event.target as Node)) {
-			handleClearClick();
-		}
-	};
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        inputRef.current &&
+        !inputRef.current.contains(event.target as Node)
+      ) {
+        handleClearClick();
+      }
+    };
 
-	if (isOpen) {
-		document.addEventListener('mousedown', handleClickOutside);
-	} else {
-		document.removeEventListener('mousedown', handleClickOutside);
-	}
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
 
-	return () => {
-		document.removeEventListener('mousedown', handleClickOutside);
-	};
-}, [isOpen]);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
 
   const handleIconClick = () => {
     setExpanded(true);
@@ -68,7 +71,7 @@ export default function SearchInput({
           className,
           isOpen ? "w-[20em]" : isExpanded ? "w-[20em]" : "w-10"
         )}
-		ref={isOpen ? inputRef : undefined}
+        ref={isOpen ? inputRef : undefined}
       >
         <i
           className={`text-icon-black cursor-pointer ${
@@ -78,7 +81,7 @@ export default function SearchInput({
         >
           <HiMagnifyingGlass
             className={`h-6 w-6 ${
-              isExpanded ? "text-icon-black" : "text-icon-blue"
+              isOpen || isExpanded ? "text-icon-black" : "text-icon-blue"
             }`}
           />
         </i>
