@@ -47,7 +47,7 @@ export function Option({
             : "justify-between",
           selected ? "hover:bg-field-background text-text-brand" : "",
           selected && type == "select"
-            ? "border-border-selected "
+            ? "border-text-brand"
             : "cursor-pointer",
           className
         )}
