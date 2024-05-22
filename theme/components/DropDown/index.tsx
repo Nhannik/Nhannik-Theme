@@ -8,10 +8,10 @@ import { HiCheck } from "react-icons/hi";
 import { twMerge } from "tailwind-merge";
 import React, { useEffect, useRef, useState } from "react";
 import Text from "../Text";
-
+import Checkbox from "../Checkbox";
 
 interface OptionProps {
-  type?: "checkbox" | "select" | "icon";
+  type?: "Checkbox" | "select" | "icon";
   Icon?: JSX.Element | React.ReactNode;
   text: string;
   className?: string;
@@ -40,30 +40,30 @@ export function Option({
       <div
         onClick={() => onClick(text, value)}
         className={twMerge(
-          "w-full flex items-center border-l-2 text-text-primary  outline-1  border-transparent  px-4 py-[5px]  hover:bg-field-hover",
+          "w-full flex items-center border-l-2 text-text-primary  outline-1  border-transparent ml-1  px-4 py-[5px]  hover:bg-field-hover",
           size == "md" ? "py-[10px]" : size == "lg" ? "py-[14px]" : "py-[5px]",
-          type == "checkbox" || type == "icon"
+          type == "Checkbox" || type == "icon"
             ? "justify-normal gap-4"
             : "justify-between",
-          selected ? "hover:bg-field-background text-text-brand" : "",
-          selected && type == "select"
-            ? "border-text-brand"
-            : "cursor-pointer",
+          selected
+            ? "hover:bg-field-background text-text-brand bg-notification-information-light border-text-brand "
+            : "",
+          selected && type == "select" ? "border-text-brand" : "cursor-pointer",
           className
         )}
       >
-        {type == "checkbox" ? (
+        {type == "Checkbox" ? (
           <>
             <div
               className={twMerge(
-                "border-icon-dark",
+                "border-icon-dark ",
 
                 !selected
                   ? "bg-transparent "
                   : "border-icon-blue bg-icon-blue ",
 
                 size == "lg" ? "w-[18px] h-[18px]" : "w-[15px] h-[15px]",
-                "  rounded-sm border-[1px] border-solid transition-colors flex justify-center items-center"
+                "border-[1px] border-solid transition-colors flex justify-center items-center"
               )}
             >
               {selected ? (
@@ -126,12 +126,13 @@ interface Props {
   icons?: boolean;
   title?: string;
   onChange?: (value: any) => void;
-  selectedValue?: string | number | null;
+  selectedValues?: (string | number)[];
+  multiSelect?: boolean;
 }
 
 export default function DropDown({
   onChange,
-  overflowLimit =45,
+  overflowLimit = 45,
   optionsList,
   disabled,
   icons = false,
@@ -140,11 +141,12 @@ export default function DropDown({
   title = "select",
   state = "active",
   size = "sm",
+  multiSelect = false,
+  selectedValues: propSelectedValues = [],
 }: Props) {
   const [toggle, setToggle] = useState<boolean>(false);
-  const [selectedValue, setSelectedValue] = useState<
-    null | number | string | string[] | number[]
-  >(null);
+  const [selectedValues, setSelectedValues] =
+    useState<(string | number)[]>(propSelectedValues);
   const [selectedName, setSelectedName] = useState<string>(title as string);
   const butOptionRef = useRef<HTMLDivElement>(null);
   const optionListlRef = useRef<HTMLDivElement>(null);
@@ -169,15 +171,35 @@ export default function DropDown({
   }, [toggle]);
 
   const onOptionClicked = (option: string, value: string | number) => {
-    setSelectedValue(value);
-    setSelectedName(option);
-    setToggle(false);
-    onChange && onChange(value);
+    if (multiSelect) {
+      let updatedValues;
+      if (selectedValues.includes(value)) {
+        updatedValues = selectedValues.filter((val) => val !== value);
+      } else {
+        updatedValues = [...selectedValues, value];
+      }
+      setSelectedValues(updatedValues);
+      setSelectedName(
+        updatedValues.length ? `${updatedValues.length} selected` : title
+      );
+      onChange && onChange(updatedValues);
+    } else {
+      setSelectedValues([value]);
+      setSelectedName(option);
+      setToggle(false);
+      onChange && onChange(value);
+    }
   };
 
   useEffect(() => {
-    onChange && onChange(selectedValue);
-  }, [selectedValue]);
+    onChange && onChange(selectedValues);
+  }, [selectedValues]);
+
+  const selectedNames =
+    optionsList
+      ?.filter((option) => selectedValues.includes(option.value))
+      .map((option) => option.text)
+      .join(", ") || title;
 
   return (
     <>
@@ -191,8 +213,8 @@ export default function DropDown({
               state == "error"
                 ? "border-border-error"
                 : state == "warning"
-                  ? "border-border-warning"
-                  : "",
+                ? "border-border-warning"
+                : "",
               size == "md" ? "py-2" : size == "lg" ? "py-3" : "py-1",
               disabled ? "bg-field-disabled cursor-not-allowed " : "",
               !toggle ? "hover:bg-field-hover rounded-md" : "rounded-t-md"
@@ -204,9 +226,9 @@ export default function DropDown({
                   "block select-none text-base text-text-primary",
                   disabled ? "text-text-disabled" : ""
                 )}
-                title={selectedName}
+                title={selectedNames}
               >
-                <Text children={selectedName} limit={overflowLimit} />
+                <Text children={selectedNames} limit={overflowLimit} />
               </span>
             </div>
 
@@ -254,9 +276,9 @@ export default function DropDown({
                     line={e.line}
                     value={e.value}
                     key={e.value + "" + i}
-                    type={icons ? "icon" : "select"}
+                    type={multiSelect ? "Checkbox" : icons ? "icon" : "select"}
                     onClick={onOptionClicked}
-                    selected={selectedValue == e.value}
+                    selected={selectedValues.includes(e.value)}
                     size={size}
                     Icon={e.icon}
                     text={e.text}
@@ -275,8 +297,8 @@ export default function DropDown({
               state == "error"
                 ? "text-text-error"
                 : state == "warning"
-                  ? "text-text-warning"
-                  : "text-text-secondary"
+                ? "text-text-warning"
+                : "text-text-secondary"
             )}
           >
             {text}
