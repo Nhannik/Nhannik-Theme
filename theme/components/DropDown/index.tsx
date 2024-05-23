@@ -11,7 +11,7 @@ import Text from "../Text";
 import Checkbox from "../Checkbox";
 
 interface OptionProps {
-  type?: "Checkbox" | "select" | "icon";
+  type?: "checkbox" | "select" | "icon";
   Icon?: JSX.Element | React.ReactNode;
   text: string;
   className?: string;
@@ -42,7 +42,7 @@ export function Option({
         className={twMerge(
           "w-full flex items-center border-l-2 text-text-primary  outline-1  border-transparent ml-1  px-4 py-[5px]  hover:bg-field-hover",
           size == "md" ? "py-[10px]" : size == "lg" ? "py-[14px]" : "py-[5px]",
-          type == "Checkbox" || type == "icon"
+          type == "checkbox" || type == "icon"
             ? "justify-normal gap-4"
             : "justify-between",
           selected
@@ -50,9 +50,8 @@ export function Option({
             : "",
           selected && type == "select" ? "border-text-brand" : "cursor-pointer",
           className
-        )}
-      >
-        {type == "Checkbox" ? (
+        )}>
+        {type == "checkbox" ? (
           <>
             <div
               className={twMerge(
@@ -64,8 +63,7 @@ export function Option({
 
                 size == "lg" ? "w-[18px] h-[18px]" : "w-[15px] h-[15px]",
                 "border-[1px] border-solid transition-colors flex justify-center items-center"
-              )}
-            >
+              )}>
               {selected ? (
                 <HiCheck
                   className={twMerge(
@@ -218,16 +216,14 @@ export default function DropDown({
               size == "md" ? "py-2" : size == "lg" ? "py-3" : "py-1",
               disabled ? "bg-field-disabled cursor-not-allowed " : "",
               !toggle ? "hover:bg-field-hover rounded-md" : "rounded-t-md"
-            )}
-          >
+            )}>
             <div className="flex items-center gap-1">
               <span
                 className={twMerge(
                   "block select-none text-base text-text-primary",
                   disabled ? "text-text-disabled" : ""
                 )}
-                title={selectedNames}
-              >
+                title={selectedNames}>
                 <Text children={selectedNames} limit={overflowLimit} />
               </span>
             </div>
@@ -267,8 +263,7 @@ export default function DropDown({
                 optionsList && optionsList?.length > 8
                   ? "h-[18em] overflow-y-scroll"
                   : ""
-              )}
-            >
+              )}>
               {optionsList &&
                 optionsList.map((e, i) => (
                   <Option
@@ -276,7 +271,7 @@ export default function DropDown({
                     line={e.line}
                     value={e.value}
                     key={e.value + "" + i}
-                    type={multiSelect ? "Checkbox" : icons ? "icon" : "select"}
+                    type={multiSelect ? "checkbox" : icons ? "icon" : "select"}
                     onClick={onOptionClicked}
                     selected={selectedValues.includes(e.value)}
                     size={size}
@@ -299,8 +294,7 @@ export default function DropDown({
                 : state == "warning"
                 ? "text-text-warning"
                 : "text-text-secondary"
-            )}
-          >
+            )}>
             {text}
           </span>
         ) : (
