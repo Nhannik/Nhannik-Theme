@@ -8,7 +8,6 @@ import { HiCheck } from "react-icons/hi";
 import { twMerge } from "tailwind-merge";
 import React, { useEffect, useRef, useState } from "react";
 import Text from "../Text";
-import Checkbox from "../Checkbox";
 
 interface OptionProps {
   type?: "checkbox" | "select" | "icon";
@@ -40,30 +39,32 @@ export function Option({
       <div
         onClick={() => onClick(text, value)}
         className={twMerge(
-          "w-full flex items-center border-l-2 text-text-primary  outline-1  border-transparent ml-1  px-4 py-[5px]  hover:bg-field-hover",
+          "w-full flex items-center border-l-2 text-text-primary  outline-1  border-transparent  px-4 py-[5px]  hover:bg-field-hover",
           size == "md" ? "py-[10px]" : size == "lg" ? "py-[14px]" : "py-[5px]",
           type == "checkbox" || type == "icon"
             ? "justify-normal gap-4"
             : "justify-between",
-          selected
-            ? "hover:bg-field-background text-text-brand bg-notification-information-light border-text-brand "
-            : "",
-          selected && type == "select" ? "border-text-brand" : "cursor-pointer",
+          selected ? "hover:bg-field-background text-text-brand" : "",
+          selected && type == "select"
+            ? "border-border-selected "
+            : "cursor-pointer",
           className
-        )}>
+        )}
+      >
         {type == "checkbox" ? (
           <>
             <div
               className={twMerge(
-                "border-icon-dark ",
+                "border-icon-dark",
 
                 !selected
                   ? "bg-transparent "
                   : "border-icon-blue bg-icon-blue ",
 
                 size == "lg" ? "w-[18px] h-[18px]" : "w-[15px] h-[15px]",
-                "border-[1px] border-solid transition-colors flex justify-center items-center"
-              )}>
+                "  rounded-sm border-[1px] border-solid transition-colors flex justify-center items-center"
+              )}
+            >
               {selected ? (
                 <HiCheck
                   className={twMerge(
@@ -124,8 +125,7 @@ interface Props {
   icons?: boolean;
   title?: string;
   onChange?: (value: any) => void;
-  selectedValues?: (string | number)[];
-  multiSelect?: boolean;
+  selectedValue?: string | number | null;
 }
 
 export default function DropDown({
@@ -139,12 +139,12 @@ export default function DropDown({
   title = "select",
   state = "active",
   size = "sm",
-  multiSelect = false,
-  selectedValues: propSelectedValues = [],
+  selectedValue: selectedValueDefault,
 }: Props) {
   const [toggle, setToggle] = useState<boolean>(false);
-  const [selectedValues, setSelectedValues] =
-    useState<(string | number)[]>(propSelectedValues);
+  const [selectedValue, setSelectedValue] = useState<
+    null | number | string | string[] | number[] | undefined
+  >(selectedValueDefault);
   const [selectedName, setSelectedName] = useState<string>(title as string);
   const butOptionRef = useRef<HTMLDivElement>(null);
   const optionListlRef = useRef<HTMLDivElement>(null);
@@ -169,35 +169,11 @@ export default function DropDown({
   }, [toggle]);
 
   const onOptionClicked = (option: string, value: string | number) => {
-    if (multiSelect) {
-      let updatedValues;
-      if (selectedValues.includes(value)) {
-        updatedValues = selectedValues.filter((val) => val !== value);
-      } else {
-        updatedValues = [...selectedValues, value];
-      }
-      setSelectedValues(updatedValues);
-      setSelectedName(
-        updatedValues.length ? `${updatedValues.length} selected` : title
-      );
-      onChange && onChange(updatedValues);
-    } else {
-      setSelectedValues([value]);
-      setSelectedName(option);
-      setToggle(false);
-      onChange && onChange(value);
-    }
+    !selectedValueDefault && setSelectedValue(value);
+    setSelectedName(option);
+    setToggle(false);
+    onChange && onChange(value);
   };
-
-  useEffect(() => {
-    onChange && onChange(selectedValues);
-  }, [selectedValues]);
-
-  const selectedNames =
-    optionsList
-      ?.filter((option) => selectedValues.includes(option.value))
-      .map((option) => option.text)
-      .join(", ") || title;
 
   return (
     <>
@@ -216,15 +192,17 @@ export default function DropDown({
               size == "md" ? "py-2" : size == "lg" ? "py-3" : "py-1",
               disabled ? "bg-field-disabled cursor-not-allowed " : "",
               !toggle ? "hover:bg-field-hover rounded-md" : "rounded-t-md"
-            )}>
+            )}
+          >
             <div className="flex items-center gap-1">
               <span
                 className={twMerge(
                   "block select-none text-base text-text-primary",
                   disabled ? "text-text-disabled" : ""
                 )}
-                title={selectedNames}>
-                <Text children={selectedNames} limit={overflowLimit} />
+                title={selectedName}
+              >
+                <Text children={selectedName} limit={overflowLimit} />
               </span>
             </div>
 
@@ -263,7 +241,8 @@ export default function DropDown({
                 optionsList && optionsList?.length > 8
                   ? "h-[18em] overflow-y-scroll"
                   : ""
-              )}>
+              )}
+            >
               {optionsList &&
                 optionsList.map((e, i) => (
                   <Option
@@ -271,9 +250,13 @@ export default function DropDown({
                     line={e.line}
                     value={e.value}
                     key={e.value + "" + i}
-                    type={multiSelect ? "checkbox" : icons ? "icon" : "select"}
+                    type={icons ? "icon" : "select"}
                     onClick={onOptionClicked}
-                    selected={selectedValues.includes(e.value)}
+                    selected={
+                      selectedValueDefault
+                        ? selectedValueDefault == e.value
+                        : selectedValue == e.value
+                    }
                     size={size}
                     Icon={e.icon}
                     text={e.text}
@@ -294,7 +277,8 @@ export default function DropDown({
                 : state == "warning"
                 ? "text-text-warning"
                 : "text-text-secondary"
-            )}>
+            )}
+          >
             {text}
           </span>
         ) : (
