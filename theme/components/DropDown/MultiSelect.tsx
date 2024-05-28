@@ -141,11 +141,10 @@ export default function DropDown({
   state = "active",
   size = "sm",
   multiSelect = false,
-  selectedValues: propSelectedValues = [],
+  selectedValues: propSelectedValues,
 }: Props) {
   const [toggle, setToggle] = useState<boolean>(false);
-  const [selectedValues, setSelectedValues] =
-    useState<(string | number)[]>(propSelectedValues);
+  const [selectedValues, setSelectedValues] = useState<(string | number)[]>([]);
 
   const butOptionRef = useRef<HTMLDivElement>(null);
   const optionListlRef = useRef<HTMLDivElement>(null);
@@ -171,16 +170,16 @@ export default function DropDown({
 
   const onOptionClicked = (option: string, value: string | number) => {
     let updatedValues;
-    if (selectedValues.includes(value)) {
-      updatedValues = selectedValues.filter((val) => val !== value);
+    let oldValues = propSelectedValues ? propSelectedValues : selectedValues;
+    if (oldValues.includes(value)) {
+      updatedValues = oldValues.filter((val) => val !== value);
     } else {
-      updatedValues = [...selectedValues, value];
+      updatedValues = [...oldValues, value];
     }
     !propSelectedValues && setSelectedValues(updatedValues);
 
     onChange && onChange(updatedValues);
   };
-
   const selectedNames = propSelectedValues
     ? optionsList
         ?.filter((option) => propSelectedValues.includes(option.value))
