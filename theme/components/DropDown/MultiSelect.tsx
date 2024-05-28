@@ -1,23 +1,117 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
 import {
   HiChevronDown,
   HiExclamationCircle,
   HiExclamationTriangle,
-  HiXMark,
 } from "react-icons/hi2";
+import { HiCheck } from "react-icons/hi";
 import { twMerge } from "tailwind-merge";
-import { Option } from ".";
+import React, { useEffect, useRef, useState } from "react";
 import Text from "../Text";
-import TagInput from "../Tag/TagInput";
-import React from "react";
+
+interface OptionProps {
+  type?: "checkbox" | "select" | "icon";
+  Icon?: JSX.Element | React.ReactNode;
+  text: string;
+  className?: string;
+  value: number | string;
+  onClick: (option: string, value: string | number) => void;
+  selected?: boolean;
+  limit: number;
+  size?: "sm" | "md" | "lg";
+  line?: boolean;
+}
+
+export function Option({
+  line,
+  onClick,
+  limit,
+  text,
+  value,
+  className,
+  size = "sm",
+  Icon,
+  type = "select",
+  selected,
+}: OptionProps) {
+  return (
+    <div className="w-full">
+      <div
+        onClick={() => onClick(text, value)}
+        className={twMerge(
+          "w-full flex items-center border-l-2 text-text-primary  outline-1  border-transparent ml-1  px-4 py-[5px]  hover:bg-field-hover",
+          size == "md" ? "py-[10px]" : size == "lg" ? "py-[14px]" : "py-[5px]",
+          type == "checkbox" || type == "icon"
+            ? "justify-normal gap-4"
+            : "justify-between",
+          selected
+            ? "hover:bg-field-background text-text-brand bg-notification-information-light border-text-brand "
+            : "",
+          selected && type == "select" ? "border-text-brand" : "cursor-pointer",
+          className
+        )}
+      >
+        {type == "checkbox" ? (
+          <>
+            <div
+              className={twMerge(
+                "border-icon-dark ",
+
+                !selected
+                  ? "bg-transparent "
+                  : "border-icon-blue bg-icon-blue ",
+
+                size == "lg" ? "w-[18px] h-[18px]" : "w-[15px] h-[15px]",
+                "border-[1px] border-solid transition-colors flex justify-center items-center"
+              )}
+            >
+              {selected ? (
+                <HiCheck
+                  className={twMerge(
+                    size == "lg" ? "w-5 h-5" : "w-3 h-3",
+                    " text-white"
+                  )}
+                />
+              ) : (
+                ""
+              )}
+            </div>
+
+            <span className="block select-none text-base " title={text}>
+              <Text children={text} limit={limit} />
+            </span>
+          </>
+        ) : type == "icon" ? (
+          <>
+            {Icon ? <i className="w-5 h-5">{Icon}</i> : ""}
+            <div className="block select-none text-base " title={text}>
+              <Text children={text} limit={limit} />
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="select-none text-base " title={text}>
+              <Text children={text} limit={limit} />
+            </div>
+
+            {selected ? <HiCheck className="w-5 h-5 text-icon-blue" /> : <></>}
+          </>
+        )}
+      </div>
+
+      {line && !selected ? (
+        <div className="w-full h-[1px] mb-[1px] bg-border-strong"></div>
+      ) : null}
+    </div>
+  );
+}
 
 export type OptionItemType = {
   text: string;
   value: number | string;
-  type?: string;
-  line?: boolean;
   selected?: boolean;
+  line?: boolean;
+  icon?: JSX.Element;
 };
 
 interface Props {
@@ -26,35 +120,35 @@ interface Props {
   disabled?: boolean;
   text?: string;
   optionsList?: OptionItemType[];
-  className?: string;
-  title: string;
-  search?: boolean;
-  onChange?: (value: any) => void;
-  category?: [string, string];
   overflowLimit?: number;
+  className?: string;
+  icons?: boolean;
+  title?: string;
+  onChange?: (value: any) => void;
+  selectedValues?: (string | number)[];
+  multiSelect?: boolean;
 }
 
-export default function MultiSelectDropDown({
-  title,
-  overflowLimit = 16,
-  search = false,
-  category = ["option", "options"],
-  className,
-  disabled,
+export default function DropDown({
   onChange,
-  optionsList = [],
-  size = "sm",
-  state,
+  overflowLimit = 45,
+  optionsList,
+  disabled,
+  icons = false,
   text,
+  className,
+  title = "select",
+  state = "active",
+  size = "sm",
+  multiSelect = false,
+  selectedValues: propSelectedValues = [],
 }: Props) {
   const [toggle, setToggle] = useState<boolean>(false);
-  const [selectedValue, setSelectedValue] = useState<string[] | number[]>([]);
-  const [selectedName, setSelectedName] = useState<string>("" as string);
-  const optionListlRef = useRef<HTMLDivElement>(null);
+  const [selectedValues, setSelectedValues] =
+    useState<(string | number)[]>(propSelectedValues);
+
   const butOptionRef = useRef<HTMLDivElement>(null);
-  const tagRef = useRef<HTMLDivElement>(null);
-  const [searchText, setSearchText] = useState<string>("");
-  const [SearchedList, setSreachList] = useState<OptionItemType[]>([]);
+  const optionListlRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const eventFun = (e: MouseEvent) => {
@@ -62,9 +156,7 @@ export default function MultiSelectDropDown({
         !optionListlRef.current?.contains(e.target as never) &&
         !butOptionRef.current?.contains(e.target as never)
       ) {
-        if (!tagRef.current?.contains(e.target as never)) {
-          setToggle(false);
-        }
+        setToggle(false);
       }
     };
 
@@ -78,129 +170,57 @@ export default function MultiSelectDropDown({
   }, [toggle]);
 
   const onOptionClicked = (option: string, value: string | number) => {
-    setSelectedName("");
-    if (selectedValue?.includes(value as never)) {
-      setSelectedValue((e: any) =>
-        e.filter((it: string | number) => it != value)
-      );
+    let updatedValues;
+    if (selectedValues.includes(value)) {
+      updatedValues = selectedValues.filter((val) => val !== value);
     } else {
-      setSelectedValue((e: any) => [...e, value]);
+      updatedValues = [...selectedValues, value];
     }
+    !propSelectedValues && setSelectedValues(updatedValues);
+
+    onChange && onChange(updatedValues);
   };
 
-  useEffect(() => {
-    if (selectedValue.length == 1) {
-      const v = optionsList?.find((e) => e.value == selectedValue[0]);
-      setSelectedName(v?.text || "");
-    } else if (selectedValue.length == 0) {
-      setSelectedName(search ? "" : title);
-    } else if (selectedValue.length > 1) {
-      setSelectedName("");
-    }
-    onChange && onChange(selectedValue);
-  }, [selectedValue]);
-
-  // input search
-
-  useEffect(() => {
-    optionsList &&
-      setSreachList(
-        optionsList?.filter((e) =>
-          e.text.toLocaleLowerCase().startsWith(searchText.toLocaleLowerCase())
-        )
-      );
-  }, [searchText]);
+  const selectedNames = propSelectedValues
+    ? optionsList
+        ?.filter((option) => propSelectedValues.includes(option.value))
+        .map((option) => option.text)
+        .join(", ") || title
+    : optionsList
+        ?.filter((option) => selectedValues.includes(option.value))
+        .map((option) => option.text)
+        .join(", ") || title;
 
   return (
     <>
-      <div
-        className={twMerge(
-          "flex flex-col gap-2 min-w-[12em]",
-          disabled ? "cursor-not-allowed" : "",
-          className
-        )}>
-        <div
-          className={twMerge(
-            "relative h-max flex items-center gap-1 w-full max-h-max  border-[1px] border-solid border-transparent cursor-pointer  px-4 bg-field-background  transition-colors",
-            state == "error"
-              ? "border-border-error"
-              : state == "warning"
-              ? "border-border-warning"
-              : "",
-
-            disabled ? "bg-field-disabled cursor-not-allowed" : "",
-            !toggle ? "hover:bg-field-hover rounded-md" : "rounded-t-md"
-          )}>
-          {selectedValue && selectedValue?.length > 1 ? (
-            <div ref={tagRef}>
-              {" "}
-              <TagInput
-                size={size == "sm" ? "sm" : "md"}
-                onClose={() => {
-                  setSelectedValue([]);
-                }}
-                children={`${selectedValue?.length} ${
-                  selectedValue.length == 0
-                    ? category[0]
-                    : selectedValue.length > 1 && selectedValue.length <= 10
-                    ? category[1]
-                    : category[0]
-                }`}
-                styleType="dark-gray"
-                closeable
-              />
-            </div>
-          ) : (
-            ""
-          )}
+      <div className={twMerge("flex flex-col gap-2 min-w-[12em]", className)}>
+        <div className="relative h-max">
           <div
             ref={butOptionRef}
             onClick={() => !disabled && setToggle((e) => !e)}
             className={twMerge(
-              `w-full flex items-center justify-between h-full
-                `,
-              !disabled && search
-                ? "p-0"
-                : size == "md"
-                ? "py-2"
-                : size == "lg"
-                ? "py-3"
-                : "py-1"
-            )}>
+              `w-full max-h-max h-max border-[1px] border-solid border-transparent flex items-center cursor-pointer justify-between  px-4 bg-field-background  transition-colors`,
+              state == "error"
+                ? "border-border-error"
+                : state == "warning"
+                ? "border-border-warning"
+                : "",
+              size == "md" ? "py-2" : size == "lg" ? "py-3" : "py-1",
+              disabled ? "bg-field-disabled cursor-not-allowed " : "",
+              !toggle ? "hover:bg-field-hover rounded-md" : "rounded-t-md"
+            )}
+          >
             <div className="flex items-center gap-1">
               <span
-                title={selectedName}
                 className={twMerge(
-                  "block select-none text-base min-w-max text-text-primary",
+                  "block select-none text-base text-text-primary",
                   disabled ? "text-text-disabled" : ""
-                )}>
-                <Text children={selectedName} limit={overflowLimit} />
+                )}
+                title={selectedNames}
+              >
+                <Text children={selectedNames} limit={overflowLimit} />
               </span>
             </div>
-
-            {!disabled && search ? (
-              <input
-                type="text"
-                onChange={(e) => {
-                  setSearchText(e.target.value);
-                  if (!toggle) {
-                    setToggle(true);
-                  }
-                }}
-                className={twMerge(
-                  "outline-none w-full text-md z h-full pl-1 bg-transparent text-text-primary",
-                  search
-                    ? size == "md"
-                      ? "py-2"
-                      : size == "lg"
-                      ? "py-3"
-                      : "py-1"
-                    : ""
-                )}
-              />
-            ) : (
-              ""
-            )}
 
             <div className="flex items-center gap-1">
               {state == "error" ? (
@@ -217,14 +237,6 @@ export default function MultiSelectDropDown({
                     disabled ? "text-text-disabled" : ""
                   )}
                 />
-              ) : selectedValue.length >= 1 ? (
-                <HiXMark
-                  onClick={() => setSelectedValue([])}
-                  className={twMerge(
-                    "text-icon-dark h-5 w-5",
-                    disabled ? "text-text-disabled" : ""
-                  )}
-                />
               ) : (
                 ""
               )}
@@ -237,52 +249,35 @@ export default function MultiSelectDropDown({
               />
             </div>
           </div>
-
           {toggle ? (
             <div
               ref={optionListlRef}
               className={twMerge(
-                "absolute z-30 md-scrollbar md-hiddenScroll flex flex-col top-[102%] left-0 rounded-b-md  shadow-md bg-field-background h-auto w-full",
-                optionsList?.length > 8
-                  ? SearchedList.length >= 8
-                    ? "h-[18em] overflow-y-scroll overflow-x-visible"
-                    : "h-max"
-                  : "h-max"
-              )}>
-              {search && SearchedList
-                ? SearchedList.map((e) => (
-                    <Option
-                      line={e.line}
-                      limit={overflowLimit}
-                      value={e.value}
-                      key={e.value}
-                      type="checkbox"
-                      onClick={onOptionClicked}
-                      selected={
-                        selectedValue &&
-                        selectedValue?.includes(e.value as never)
-                      }
-                      size={size}
-                      text={e.text}
-                    />
-                  ))
-                : optionsList &&
-                  optionsList.map((e) => (
-                    <Option
-                      line={e.line}
-                      limit={overflowLimit}
-                      value={e.value}
-                      key={e.value}
-                      type="checkbox"
-                      onClick={onOptionClicked}
-                      selected={
-                        selectedValue &&
-                        selectedValue?.includes(e.value as never)
-                      }
-                      size={size}
-                      text={e.text}
-                    />
-                  ))}
+                "absolute z-30 flex md-hiddenScroll flex-col top-full left-0 rounded-b-md  shadow-md bg-field-background h-auto w-full",
+                optionsList && optionsList?.length > 8
+                  ? "h-[18em] overflow-y-scroll"
+                  : ""
+              )}
+            >
+              {optionsList &&
+                optionsList.map((e, i) => (
+                  <Option
+                    limit={overflowLimit}
+                    line={e.line}
+                    value={e.value}
+                    key={e.value + "" + i}
+                    type={multiSelect ? "checkbox" : icons ? "icon" : "select"}
+                    onClick={onOptionClicked}
+                    selected={
+                      propSelectedValues
+                        ? propSelectedValues.includes(e.value)
+                        : selectedValues.includes(e.value)
+                    }
+                    size={size}
+                    Icon={e.icon}
+                    text={e.text}
+                  />
+                ))}
             </div>
           ) : (
             ""
@@ -298,7 +293,8 @@ export default function MultiSelectDropDown({
                 : state == "warning"
                 ? "text-text-warning"
                 : "text-text-secondary"
-            )}>
+            )}
+          >
             {text}
           </span>
         ) : (
