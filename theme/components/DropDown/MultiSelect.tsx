@@ -127,6 +127,7 @@ interface Props {
   onChange?: (value: any) => void;
   selectedValues?: (string | number)[];
   multiSelect?: boolean;
+  selectAllOptionText?: string;
 }
 
 export default function DropDown({
@@ -142,9 +143,19 @@ export default function DropDown({
   size = "sm",
   multiSelect = false,
   selectedValues: propSelectedValues,
+  selectAllOptionText = "Select All",
 }: Props) {
   const [toggle, setToggle] = useState<boolean>(false);
   const [selectedValues, setSelectedValues] = useState<(string | number)[]>([]);
+  const handleSelectAll = () => {
+    if (optionsList) {
+      const allValues = optionsList.map((option) => option.value);
+      const updatedValues =
+        selectedValues.length === optionsList.length ? [] : allValues;
+      setSelectedValues(updatedValues);
+      onChange && onChange(updatedValues);
+    }
+  };
 
   const butOptionRef = useRef<HTMLDivElement>(null);
   const optionListlRef = useRef<HTMLDivElement>(null);
@@ -193,6 +204,7 @@ export default function DropDown({
   return (
     <>
       <div className={twMerge("flex flex-col gap-2 min-w-[12em]", className)}>
+        
         <div className="relative h-max">
           <div
             ref={butOptionRef}
@@ -258,6 +270,17 @@ export default function DropDown({
                   : ""
               )}
             >
+              {selectAllOptionText && (
+                <div className="flex items-center cursor-pointer py-2 px-4 hover:bg-field-hover">
+                  <input
+                    type="checkbox"
+                    checked={selectedValues.length === optionsList?.length && selectedValues.length > 0}
+                    onChange={handleSelectAll}
+                    className="mr-2 cursor-pointer border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                  />
+                  <span className="text-base text-text-primary">{selectAllOptionText}</span>
+                </div>
+              )}
               {optionsList &&
                 optionsList.map((e, i) => (
                   <Option
