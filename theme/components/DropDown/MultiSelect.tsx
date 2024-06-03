@@ -130,7 +130,7 @@ interface Props {
   selectAllOptionText?: string;
 }
 
-export default function DropDown({
+export default function MultiSelect({
   onChange,
   overflowLimit = 45,
   optionsList,
@@ -204,7 +204,6 @@ export default function DropDown({
   return (
     <>
       <div className={twMerge("flex flex-col gap-2 min-w-[12em]", className)}>
-        
         <div className="relative h-max">
           <div
             ref={butOptionRef}
@@ -271,14 +270,19 @@ export default function DropDown({
               )}
             >
               {selectAllOptionText && (
-                <div className="flex items-center cursor-pointer py-2 px-4 hover:bg-field-hover">
+                <div className="flex items-center ml-2 cursor-pointer py-2 px-4 hover:bg-field-hover">
                   <input
                     type="checkbox"
-                    checked={selectedValues.length === optionsList?.length && selectedValues.length > 0}
+                    checked={
+                      selectedValues.length === optionsList?.length &&
+                      selectedValues.length > 0
+                    }
                     onChange={handleSelectAll}
-                    className="mr-2 cursor-pointer border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                    className="mr-6 border-black cursor-pointer border  rounded focus:outline-none focus:border-blue-500 "
                   />
-                  <span className="text-base text-text-primary">{selectAllOptionText}</span>
+                  <span className="text-base text-text-primary">
+                    {selectAllOptionText}
+                  </span>
                 </div>
               )}
               {optionsList &&
