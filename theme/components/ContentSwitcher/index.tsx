@@ -44,7 +44,9 @@ function Section({
 				)}
 			>
 				{IconOnly ? null : <span className='sm:hidden block'>{text}</span>}
-				{icon ? createElement(icon) : null}
+				{icon ? (
+					<div className='hidden sm:block '>{createElement(icon)}</div>
+				) : null}
 			</div>
 		</>
 	);
