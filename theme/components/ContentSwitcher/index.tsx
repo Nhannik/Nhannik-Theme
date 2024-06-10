@@ -100,7 +100,7 @@ export default function ContentSwitcher({
 		<>
 			<div
 				className={twMerge(
-					'w-max h-max rounded-[4px] overflow-hidden border-[1px] border-solid border-Background-brand-dark flex items-center',
+					'w-[60%] h-max rounded-[4px]  border-[1px] border-solid border-Background-brand-dark flex items-center',
 					disabled
 						? 'bg-button-disabled'
 						: 'bg-border-notification-information bg-opacity-10'
