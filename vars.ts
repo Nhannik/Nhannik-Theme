@@ -500,6 +500,7 @@ const Theme = {
   fontFamily: {
     "plus-jakarta-sans": ["plus-jakarta-sans", "sans-serif"],
   },
+  
   outlineOffset: {
     "2": "2px",
   },
