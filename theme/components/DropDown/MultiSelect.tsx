@@ -39,13 +39,13 @@ export function Option({
       <div
         onClick={() => onClick(text, value)}
         className={twMerge(
-          "w-full flex items-center border-l-2 text-text-primary  outline-1  border-transparent ml-1  px-4 py-[5px]  hover:bg-field-hover",
+          "w-full flex items-center border-l-2 text-text-primary outline-1 border-transparent ml-1 px-4 py-[5px] hover:bg-field-hover",
           size == "md" ? "py-[10px]" : size == "lg" ? "py-[14px]" : "py-[5px]",
           type == "checkbox" || type == "icon"
             ? "justify-normal gap-4"
             : "justify-between",
           selected
-            ? "hover:bg-field-background text-text-brand bg-notification-information-light border-text-brand "
+            ? "hover:bg-field-background text-text-brand bg-notification-information-light border-text-brand"
             : "",
           selected && type == "select" ? "border-text-brand" : "cursor-pointer",
           className
@@ -55,12 +55,8 @@ export function Option({
           <>
             <div
               className={twMerge(
-                "border-icon-dark ",
-
-                !selected
-                  ? "bg-transparent "
-                  : "border-icon-blue bg-icon-blue ",
-
+                "border-icon-dark",
+                !selected ? "bg-transparent" : "border-icon-blue bg-icon-blue",
                 size == "lg" ? "w-[18px] h-[18px]" : "w-[15px] h-[15px]",
                 "border-[1px] border-solid transition-colors flex justify-center items-center"
               )}
@@ -69,36 +65,33 @@ export function Option({
                 <HiCheck
                   className={twMerge(
                     size == "lg" ? "w-5 h-5" : "w-3 h-3",
-                    " text-white"
+                    "text-white"
                   )}
                 />
               ) : (
                 ""
               )}
             </div>
-
-            <span className="block select-none text-base " title={text}>
+            <span className="block select-none text-base" title={text}>
               <Text children={text} limit={limit} />
             </span>
           </>
         ) : type == "icon" ? (
           <>
             {Icon ? <i className="w-5 h-5">{Icon}</i> : ""}
-            <div className="block select-none text-base " title={text}>
+            <div className="block select-none text-base" title={text}>
               <Text children={text} limit={limit} />
             </div>
           </>
         ) : (
           <>
-            <div className="select-none text-base " title={text}>
+            <div className="select-none text-base" title={text}>
               <Text children={text} limit={limit} />
             </div>
-
             {selected ? <HiCheck className="w-5 h-5 text-icon-blue" /> : <></>}
           </>
         )}
       </div>
-
       {line && !selected ? (
         <div className="w-full h-[1px] mb-[1px] bg-border-strong"></div>
       ) : null}
@@ -115,7 +108,7 @@ export type OptionItemType = {
 };
 
 interface Props {
-  size?: "sm" | "md" | "lg"; // px-1 #4px , px-2 #8px , px-3 #12px
+  size?: "sm" | "md" | "lg";
   state?: "error" | "warning" | "active";
   disabled?: boolean;
   text?: string;
@@ -188,9 +181,9 @@ export default function MultiSelect({
       updatedValues = [...oldValues, value];
     }
     !propSelectedValues && setSelectedValues(updatedValues);
-
     onChange && onChange(updatedValues);
   };
+
   const selectedNames = propSelectedValues
     ? optionsList
         ?.filter((option) => propSelectedValues.includes(option.value))
@@ -209,14 +202,14 @@ export default function MultiSelect({
             ref={butOptionRef}
             onClick={() => !disabled && setToggle((e) => !e)}
             className={twMerge(
-              `w-full max-h-max h-max border-[1px] border-solid border-transparent flex items-center cursor-pointer justify-between  px-4 bg-field-background  transition-colors`,
+              `w-full max-h-max h-max border-[1px] border-solid border-transparent flex items-center cursor-pointer justify-between px-4 bg-field-background transition-colors`,
               state == "error"
                 ? "border-border-error"
                 : state == "warning"
                 ? "border-border-warning"
                 : "",
               size == "md" ? "py-2" : size == "lg" ? "py-3" : "py-1",
-              disabled ? "bg-field-disabled cursor-not-allowed " : "",
+              disabled ? "bg-field-disabled cursor-not-allowed" : "",
               !toggle ? "hover:bg-field-hover rounded-md" : "rounded-t-md"
             )}
           >
@@ -231,7 +224,6 @@ export default function MultiSelect({
                 <Text children={selectedNames} limit={overflowLimit} />
               </span>
             </div>
-
             <div className="flex items-center gap-1">
               {state == "error" ? (
                 <HiExclamationCircle
@@ -263,27 +255,26 @@ export default function MultiSelect({
             <div
               ref={optionListlRef}
               className={twMerge(
-                "absolute z-30 flex md-hiddenScroll flex-col top-full left-0 rounded-b-md  shadow-md bg-field-background h-auto w-full",
+                "absolute z-30 flex md-hiddenScroll flex-col top-full left-0 rounded-b-md shadow-md bg-field-background h-auto w-full",
                 optionsList && optionsList?.length > 8
                   ? "h-[18em] overflow-y-scroll"
                   : ""
               )}
             >
               {selectAllOptionText && (
-                <div className="flex items-center ml-2 cursor-pointer py-2 px-4 hover:bg-field-hover">
-                  <input
-                    type="checkbox"
-                    checked={
-                      selectedValues.length === optionsList?.length &&
-                      selectedValues.length > 0
-                    }
-                    onChange={handleSelectAll}
-                    className="mr-6 border-black cursor-pointer border  rounded focus:outline-none focus:border-blue-500 "
-                  />
-                  <span className="text-base text-text-primary">
-                    {selectAllOptionText}
-                  </span>
-                </div>
+                <Option
+                  limit={overflowLimit}
+                  value="selectAll"
+                  key="selectAll"
+                  type="checkbox"
+                  onClick={handleSelectAll}
+                  selected={
+                    selectedValues.length === optionsList?.length &&
+                    selectedValues.length > 0
+                  }
+                  size={size}
+                  text={selectAllOptionText}
+                />
               )}
               {optionsList &&
                 optionsList.map((e, i) => (
@@ -309,7 +300,6 @@ export default function MultiSelect({
             ""
           )}
         </div>
-
         {text ? (
           <span
             className={twMerge(
