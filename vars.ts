@@ -462,11 +462,11 @@ const screens = {
   lg: { max: "1056px" },
   // => @media (max-width: 1056px) { ... }
 
-  md: { max: "672px" },
-  // => @media (max-width: 672px) { ... }
+  md: { max: "735px" },
+  // => @media (max-width: 735px) { ... }
 
-  sm: { max: "320px" },
-  // => @media (max-width: 320px) { ... }
+  sm: { max: "540px" },
+  // => @media (max-width: 540px) { ... }
 };
 
 // font sizes
