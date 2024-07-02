@@ -30,27 +30,6 @@ export default function SearchInput({
   const [isExpanded, setExpanded] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => onChange && onChange(value), [value]);
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        inputRef.current &&
-        !inputRef.current.contains(event.target as Node)
-      ) {
-        handleClearClick();
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isOpen]);
-
   const handleIconClick = () => {
     setExpanded(true);
   };
