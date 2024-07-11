@@ -1,5 +1,6 @@
 import { twMerge } from "tailwind-merge";
 import { HiCheckCircle,HiMinusCircle } from 'react-icons/hi';
+import React from "react";
 
 
 interface Props {
